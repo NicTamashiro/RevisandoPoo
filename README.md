@@ -68,3 +68,69 @@ Crie um pequeno sistema de "Loja":
 - Na `main`, crie um `Produto`, escolha uma forma de pagamento e imprima o valor final calculado.
 
 ---
+
+## Nível 7 — ArrayList básico e `toString()`
+
+### Exercício 14
+Crie uma classe `Filme` com `titulo` (String) e `notaIMDB` (double). Sobrescreva o `toString()` para exibir algo como `"Matrix (nota: 8.7)"`. Na `main`, crie um `ArrayList<Filme>`, adicione 4 filmes usando `add()`, e depois percorra a lista com um `for` tradicional (usando `size()` e `get(i)`) imprimindo cada um.
+
+### Exercício 15
+Refaça o `for` do exercício 14, mas agora usando **foreach**. Depois, imprima a lista inteira de uma vez só com `System.out.println(listaDeFilmes)` — sem loop nenhum — e confirme que o `toString()` que você sobrescreveu aparece pra cada item automaticamente.
+ 
+---
+
+## Nível 8 — Construtores, construtor default e `super`
+
+### Exercício 16
+Na classe `Filme` do exercício anterior, crie **dois construtores**: um vazio (sem parâmetros) e outro recebendo `titulo` e `notaIMDB`. No construtor vazio, defina valores padrão (ex: `titulo = "Sem título"`, `notaIMDB = 0.0`). Teste os dois na `main`.
+
+### Exercício 17
+Crie uma superclasse `Midia` com `titulo` (String) e `anoLancamento` (int), com um construtor que recebe os dois. Crie uma subclasse `Serie extends Midia`, adicionando o atributo `numeroTemporadas` (int). No construtor de `Serie`, use `super(...)` para inicializar `titulo` e `anoLancamento`, e complete com `numeroTemporadas`. Sobrescreva `toString()` em `Serie` para mostrar todos os dados.
+ 
+---
+
+## Nível 9 — Casting e `instanceof`
+
+### Exercício 18
+Reaproveitando `Midia` e `Serie` do exercício 17, crie também uma subclasse `Filme2 extends Midia` (pode ser um nome diferente pra não confundir com o `Filme` do exercício 14), adicionando `duracaoMinutos` (int). Crie um `ArrayList<Midia>` e adicione 2 `Serie` e 2 `Filme2` misturados. Percorra a lista com foreach e, usando `instanceof`, identifique o tipo real de cada item, fazendo o casting e imprimindo um dado **específico** daquele tipo (ex: se for `Serie`, imprime `numeroTemporadas`; se for `Filme2`, imprime `duracaoMinutos`).
+
+### Exercício 19
+No mesmo cenário do exercício 18, conte quantos itens da lista são `Serie` e quantos são `Filme2`, usando `instanceof` dentro do loop (duas variáveis contadoras, incrementadas conforme o tipo).
+ 
+---
+
+## Nível 10 — `Comparable` e ordenação
+
+### Exercício 20
+Crie uma classe `Produto` com `nome` (String) e `preco` (double). Implemente `Comparable<Produto>`, ordenando por `preco` (do menor para o maior) usando `compareTo` com `Double.compare`. Na `main`, crie um `ArrayList<Produto>` com pelo menos 5 produtos em ordem aleatória, use `Collections.sort()` e imprima a lista antes e depois de ordenar (lembre de sobrescrever `toString()` pra facilitar a visualização).
+
+### Exercício 21
+Pegue os `Filme` do exercício 14/15 e implemente `Comparable<Filme>`, ordenando por `notaIMDB` — mas dessa vez em ordem **decrescente** (do maior para o menor). Dica: pense em como inverter o resultado de `Double.compare`.
+ 
+---
+
+## Nível 11 — `Comparator` (ordenação flexível)
+
+### Exercício 22
+Usando a lista de `Produto` do exercício 20, ordene a mesma lista de **duas formas diferentes**, sem alterar o `compareTo` da classe:
+1. Por `nome` em ordem alfabética, usando `list.sort(Comparator.comparing(Produto::getNome))`;
+2. Por `preco`, usando `list.sort(Comparator.comparingDouble(Produto::getPreco))`.
+   Imprima a lista depois de cada ordenação pra ver a diferença.
+
+### Exercício 23
+No mesmo exercício, tente ordenar por `preco` em ordem **decrescente** usando `Comparator`, sem tocar na classe `Produto`. Dica: pesquise o método `.reversed()` do `Comparator`.
+ 
+---
+
+## Nível 12 — Programando para interface (desafio final)
+
+### Exercício 24 (juntando tudo)
+Crie um pequeno "catálogo de filmes":
+- Classe `Filme` com `titulo`, `genero` (String) e `notaIMDB`, implementando `Comparable` por nota;
+- Declare a lista como `List<Filme> catalogo = new ArrayList<>();` (repare: variável do tipo da **interface**, não da implementação);
+- Adicione pelo menos 6 filmes;
+- Implemente um menu simples (pode ser só uma sequência de `System.out.println` simulando opções, não precisa de input real) que:
+    1. Ordena e exibe por nota (usando `Collections.sort`, aproveitando o `Comparable`);
+    2. Ordena e exibe por título, alfabeticamente (usando `Comparator`);
+    3. Filtra e exibe só os filmes de um determinado `genero` (usando foreach + `if`).
+- No final, troque a linha `new ArrayList<>()` por `new LinkedList<>()` e confirme que **nada mais** no código precisou mudar.
