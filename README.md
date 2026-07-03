@@ -134,3 +134,85 @@ Crie um pequeno "catálogo de filmes":
     2. Ordena e exibe por título, alfabeticamente (usando `Comparator`);
     3. Filtra e exibe só os filmes de um determinado `genero` (usando foreach + `if`).
 - No final, troque a linha `new ArrayList<>()` por `new LinkedList<>()` e confirme que **nada mais** no código precisou mudar.
+
+---
+
+## Nível 13 — Consumindo API com HttpClient
+
+### Exercício 25
+Usando `HttpClient`, `HttpRequest` e `HttpResponse`, faça uma requisição para a API do OMDb buscando o filme de sua escolha (você vai precisar criar uma conta gratuita no site do OMDb pra pegar sua `apikey`). Imprima `response.body()` no console e confirme que recebeu o JSON.
+
+### Exercício 26
+Repita o exercício 25, mas agora busque **3 filmes diferentes**, um de cada vez, guardando o `response.body()` de cada busca numa `List<String>`. No final, percorra a lista com foreach imprimindo cada JSON.
+ 
+---
+
+## Nível 14 — Record e Gson (JSON → objeto)
+
+### Exercício 27
+Crie um `record Titulo` com pelo menos os campos `titulo`, `anoLancamento` e `avaliacao` (todos `String`, pra simplificar), usando `@SerializedName` para mapear corretamente os campos do JSON da OMDb (`Title`, `Year`, `imdbRating`). Configure a biblioteca Gson no projeto.
+
+### Exercício 28
+Junte os exercícios 25 e 27: faça a requisição HTTP, pegue o `response.body()`, e use `gson.fromJson(...)` para converter direto num objeto `Titulo`. Imprima o objeto (aproveite que `record` já gera `toString()` automático).
+
+### Exercício 29
+Repita o exercício 28, mas para uma **lista de filmes** (reaproveite os títulos do exercício 26). Para cada título buscado, converta para `Titulo` e guarde numa `List<Titulo>`. No final, imprima a lista inteira.
+ 
+---
+
+## Nível 15 — Exceptions básicas (try/catch)
+
+### Exercício 30
+Pegue o código do exercício 28 e envolva a parte da requisição HTTP num bloco `try/catch`, capturando `IOException` e `InterruptedException` separadamente (lembre que `client.send(...)` pode lançar os dois). Em cada `catch`, imprima uma mensagem diferente explicando qual tipo de erro ocorreu.
+
+### Exercício 31
+Teste o exercício 30 propositalmente **provocando um erro** — por exemplo, desligando o wi-fi por um instante antes de rodar, ou usando uma `apikey` inválida na URL. Observe qual `catch` é acionado e o que `e.getMessage()` imprime. Depois reative a internet/chave e confirme que o fluxo normal volta a funcionar.
+ 
+---
+
+## Nível 16 — Exception personalizada
+
+### Exercício 32
+Crie uma classe `TituloNaoEncontradoException extends Exception`, com um construtor que recebe uma mensagem e repassa pra `super(mensagem)`.
+
+### Exercício 33
+Crie um método `buscarTitulo(String nomeFilme)` que faz a requisição à API, converte para `Titulo`, e **valida** o resultado: se o campo `titulo` do objeto vier `null` (indicando que a OMDb não achou o filme buscado), lance a `TituloNaoEncontradoException` com uma mensagem informativa. O método deve declarar `throws TituloNaoEncontradoException` na assinatura.
+
+### Exercício 34
+Na `main`, chame `buscarTitulo(...)` dentro de um `try/catch`, tratando a `TituloNaoEncontradoException` separadamente das exceptions de rede (`IOException`/`InterruptedException`). Teste buscando um filme que existe e um nome aleatório que **não existe** (tipo `"asdkjaksjdaksjd"`), pra confirmar que sua exception personalizada é lançada corretamente nesse segundo caso.
+ 
+---
+
+## Nível 17 — Escrevendo arquivos
+
+### Exercício 35
+Usando `FileWriter` (dentro de um `try-with-resources`), escreva um arquivo `filme.txt` contendo o título e o ano de um `Titulo` buscado da API, formatado como texto simples (ex: `"Matrix (1999)"`). Trate `IOException` no `catch`.
+
+### Exercício 36
+Modifique o exercício 35 para gravar **vários** filmes no mesmo arquivo (reaproveite a `List<Titulo>` do exercício 29), uma linha por filme. Dica: pesquise o método `write` chamado várias vezes, ou concatene tudo numa `String` antes de escrever de uma vez.
+ 
+---
+
+## Nível 18 — Serializando para JSON com Gson
+
+### Exercício 37
+Pegue um objeto `Titulo` (buscado da API) e use `gson.toJson(titulo)` para convertê-lo de volta em texto JSON. Grave esse texto num arquivo `titulo.json`, usando `FileWriter`.
+
+### Exercício 38
+Repita o exercício 37, mas configure o Gson com `GsonBuilder().setPrettyPrinting().create()` antes de gerar o JSON. Compare o conteúdo do arquivo antes e depois — observe a diferença de formatação (compactado x indentado).
+
+### Exercício 39
+Serialize a `List<Titulo>` inteira (não um objeto só) para um arquivo `catalogo.json`, com `setPrettyPrinting()`. Dica: o Gson consegue serializar listas do mesmo jeito que serializa objetos — `gson.toJson(minhaLista)`.
+ 
+---
+
+## Nível 19 — Desafio final (juntando tudo)
+
+### Exercício 40
+Monte um pequeno programa de "catálogo de filmes salvos":
+1. Peça (pode ser fixo no código, sem `Scanner`, se preferir) uma lista de 3 a 5 títulos de filmes;
+2. Para cada título, busque na API OMDb, convertendo a resposta em `Titulo` via Gson;
+3. Se algum filme não for encontrado, capture sua `TituloNaoEncontradoException` e **continue** buscando os próximos, sem interromper o programa (dica: o `try/catch` deve ficar **dentro** do loop, não em volta dele todo);
+4. Ao final, salve todos os filmes encontrados com sucesso num arquivo `catalogo.json`, formatado com `setPrettyPrinting()`;
+5. Imprima no console quantos filmes foram salvos com sucesso e quantos falharam.
+---
