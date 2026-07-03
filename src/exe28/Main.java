@@ -22,7 +22,7 @@ public class Main {
             System.out.println(titulo);
 
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            System.out.println("Erro: " + e.getMessage());
         }
     }
 }
