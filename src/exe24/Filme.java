@@ -1,13 +1,15 @@
 package exe24;
 
+import java.util.List;
+
 public class Filme implements Comparable<Filme>{
     private String titulo;
-    private String genero;
+    private List<String> generos;
     private double notaIMDB;
 
-    public Filme(String titulo, String genero, double notaIMDB) {
+    public Filme(String titulo, List<String> generos, double notaIMDB) {
         this.titulo = titulo;
-        this.genero = genero;
+        this.generos = generos;
         this.notaIMDB = notaIMDB;
     }
 
@@ -20,8 +22,8 @@ public class Filme implements Comparable<Filme>{
         return titulo;
     }
 
-    public String getGenero() {
-        return genero;
+    public List<String> getGenero() {
+        return generos;
     }
 
     public double getNotaIMDB() {
@@ -32,7 +34,7 @@ public class Filme implements Comparable<Filme>{
     public String toString() {
         return "Filme {" +
                 "titulo='" + titulo + '\'' +
-                ", genero='" + genero + '\'' +
+                ", genero='" + generos + '\'' +
                 ", notaIMDB=" + notaIMDB +
                 '}';
     }

@@ -6,12 +6,12 @@ public class Main {
     public static void main(String[] args) {
         List<Filme> catalogo = new LinkedList<>();
 
-        catalogo.add(new Filme("The Shawshank Redemption", "Drama", 9.3));
-        catalogo.add(new Filme("The Dark Knight", "Ação, Crime", 9.0));
-        catalogo.add(new Filme("Inception", "Ficção científica, Ação", 8.8));
-        catalogo.add(new Filme("Forrest Gump", "Drama, Romance", 8.8));
-        catalogo.add(new Filme("Interstellar", "Ficção científica, Aventura", 8.7));
-        catalogo.add(new Filme("The Matrix", "Ficção científica, Ação", 8.7));
+        catalogo.add(new Filme("The Shawshank Redemption", List.of("Drama"), 9.3));
+        catalogo.add(new Filme("The Dark Knight", List.of("Ação", "Crime"), 9.0));
+        catalogo.add(new Filme("Inception", List.of("Ficção científica", "Ação"), 8.8));
+        catalogo.add(new Filme("Forrest Gump", List.of("Drama", "Romance"), 8.8));
+        catalogo.add(new Filme("Interstellar", List.of("Ficção científica", "Aventura"), 8.7));
+        catalogo.add(new Filme("The Matrix", List.of("Ficção científica", "Ação"), 8.7));
 
         System.out.println("===== Catalogo de Filmes =====");
 
@@ -31,7 +31,7 @@ public class Main {
         System.out.println("------------------------------------");
 
         for (Filme filme : catalogo){
-            if(filme.getGenero().toLowerCase().contains("ficção científica")){
+            if(filme.getGenero().contains("Ficção científica")){
                 System.out.println(filme);
             }
         }
