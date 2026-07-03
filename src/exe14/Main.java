@@ -12,8 +12,8 @@ public class Main {
         filmes.add(new Filme("Diario de uma paixao", 8.8));
         filmes.add(new Filme("Gran Turismo", 8.6));
 
-        for (Filme filme : filmes){
-            System.out.println(filme);
+        for (int i = 0; i < filmes.size(); i++){
+            System.out.println(filmes.get(i));
         }
     }
 }
